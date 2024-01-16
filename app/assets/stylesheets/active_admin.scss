@@ -8,10 +8,15 @@
 // $sidebar-width: 242px;
 
 // Active Admin's got SASS!
-@import "active_admin/mixins";
-@import "active_admin/base";
+// @import "active_admin/mixins";
+// @import "active_admin/base";
 
 // Overriding any non-variable Sass must be done after the fact.
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+$primary-color: #390879;
+@import "arctic_admin/base";
+@import 'activeadmin/quill_editor_input';
+@import 'activeadmin/quill_editor/quill.snow';
