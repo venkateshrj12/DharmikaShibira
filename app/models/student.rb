@@ -1,5 +1,10 @@
 class Student < ApplicationRecord
+  self.table_name = :students
   def self.ransackable_attributes(auth_object = nil)
-    ["created_at", "date_of_birth", "gender", "id", "name", "updated_at"]
+    self.column_names
   end
+
+  has_one_attached :image
+
+
 end
