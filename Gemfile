@@ -70,3 +70,10 @@ group :test do
   gem "selenium-webdriver"
 
 end
+gem 'devise'
+gem 'sassc-rails'
+gem 'activeadmin'
+gem 'active_admin_role'
+gem 'active_admin_datetimepicker'
+gem 'arctic_admin'
+gem 'activeadmin_quill_editor'
