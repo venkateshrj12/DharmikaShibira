@@ -72,8 +72,7 @@ group :test do
 end
 gem 'devise'
 gem 'sassc-rails'
-gem 'activeadmin'
-gem 'active_admin_role'
-gem 'active_admin_datetimepicker'
+gem 'activeadmin', '2.14.0'
 gem 'arctic_admin'
 gem 'activeadmin_quill_editor'
+gem 'active_admin_role'

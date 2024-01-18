@@ -20,3 +20,7 @@ $primary-color: #390879;
 @import "arctic_admin/base";
 @import 'activeadmin/quill_editor_input';
 @import 'activeadmin/quill_editor/quill.snow';
+
+#student_address, #student_remarks {
+  height: 10px; // Set the desired height
+}
