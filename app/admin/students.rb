@@ -1,12 +1,41 @@
 ActiveAdmin.register Student do
   permit_params ["image"] << Student.column_names
 
+  index do
+    selectable_column
+    id_column
+    column "Student's Details" do |student|
+      simple_format("#{student.name}<br>#{student.type}<br>#{student.gotra}<br>#{student.age_calculator}")
+    end
+
+    column "Parent's details" do |student|
+      simple_format("#{student.parent_name}<br>#{student.parent_contact_number}<br><br>#{student.address}")
+    end
+    column :remarks
+    column "Accessaries" do |student|
+      link_to("Notes", toggle_notes_admin_student_path(student), method: :put, class: "status_tag color: #{student.notes ? 'green' : 'red'}") + '<br> <br>'.html_safe +
+      link_to("Glass", toggle_glass_admin_student_path(student), method: :put, class: "status_tag color: #{student.glass ? 'green' : 'red'}")
+    end
+    actions
+  end
+
+  member_action :toggle_notes, method: :put do
+    student = Student.find(params[:id])
+    student.update(notes: !student.notes)
+    redirect_to admin_students_path#, notice: "Notes status toggled successfully."
+  end
+
+  member_action :toggle_glass, method: :put do
+  student = Student.find(params[:id])
+  student.update(glass: !student.glass)  # Corrected from 'notes' to 'glass'
+  redirect_to admin_students_path
+end
+  
   show do
     attributes_table do
       row :id
       row :name
       row :date_of_birth
-      row :gender
       row :type
       row :have_you_attended_previous_shibiras
       row :notes
@@ -27,7 +56,6 @@ ActiveAdmin.register Student do
     f.inputs do
       f.input :name
       f.input :date_of_birth
-      f.input :gender
       f.input :type
       f.input :have_you_attended_previous_shibiras, as: :select
       f.input :notes, as: :select
