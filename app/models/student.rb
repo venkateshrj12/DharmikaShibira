@@ -5,6 +5,8 @@ class Student < ApplicationRecord
 
   has_one_attached :image, dependent: :destroy
 
+  validates_presence_of :name, :date_of_birth, :type, :parent_name, :parent_contact_number, :gotra,  :address 
+  validates_inclusion_of  :notes, :glass, :have_you_attended_previous_shibiras, in: [true, false]
 
   def age_calculator
     return nil if self.date_of_birth.nil?
