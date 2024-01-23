@@ -30,3 +30,19 @@ $primary-color: #390879;
   text-align: center;
   vertical-align: middle;
 }
+
+#student_date_of_birth_input {
+  @media screen and (max-width: 600px) {
+    .label {
+      text-align: left;
+      display: block;
+      margin-bottom: 5px;
+    }
+    width: 100px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+  }
+}

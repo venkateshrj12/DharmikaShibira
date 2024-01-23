@@ -1,11 +1,16 @@
 ActiveAdmin.register Student do
   permit_params ["image"] << Student.column_names
 
+  scope :all
+  scope :upaneeta
+  scope :anupaneeta
+  scope :baalaki
+
   index do
     selectable_column
     id_column
     column "Student's Details" do |student|
-      simple_format("#{student.name}<br>#{student.type}<br>#{student.gotra}<br>#{student.age_calculator}")
+      simple_format("#{student.name}<br>#{student.student_type.titlecase}<br>#{student.gotra}<br>#{student.age_calculator}")
     end
     column "Parent's details" do |student|
       simple_format("#{student.parent_name}<br>#{student.parent_contact_number}<br><br>#{student.address}")
@@ -18,12 +23,12 @@ ActiveAdmin.register Student do
     
     actions
   end
-
+  
   show do
     attributes_table do
       row :id
       row "Student's Details" do |student|
-        simple_format("#{student.name}<br>#{student.type}<br>#{student.gotra}<br>#{student.age_calculator}")
+        simple_format("#{student.name}<br>#{student.student_type.titlecase}<br>#{student.gotra}<br>#{student.age_calculator}")
       end
       row "Parent's details" do |student|
         simple_format("#{student.parent_name}<br>#{student.parent_contact_number}<br><br>#{student.address}")
@@ -42,11 +47,11 @@ ActiveAdmin.register Student do
   form do |f|
     f.inputs do
       f.input :name
-      f.input :date_of_birth, start_year: 1990, end_year: Time.now.year
-      f.input :type
-      f.input :have_you_attended_previous_shibiras, as: :select
-      f.input :notes, as: :select
-      f.input :glass, as: :select
+      f.input :date_of_birth, start_year: 1990, end_year: Time.now.year, placeholder: { year: 'Year', month: 'Month', day: 'Day' }
+      f.input :student_type, as: :select
+      f.input :have_you_attended_previous_shibiras
+      f.input :notes
+      f.input :glass
       f.input :gotra
       f.input :parent_name
       f.input :parent_contact_number

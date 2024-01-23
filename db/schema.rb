@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_20_191828) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_17_085355) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -68,20 +68,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_20_191828) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "anupaneetas", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "baalakis", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "students", force: :cascade do |t|
     t.string "name"
     t.date "date_of_birth"
-    t.string "type"
+    t.integer "student_type"
     t.string "parent_name"
     t.string "parent_contact_number"
     t.string "gotra"
@@ -90,11 +80,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_20_191828) do
     t.boolean "notes", default: false
     t.boolean "glass", default: false
     t.text "remarks"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "upaneetas", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
