@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  receipt_number: 1
+  date: 2024-01-24
+  name: MyString
+  mobile_number: MyString
+  seva_details: MyString
+  amount: MyString
+  mode_of_payment: MyString
+  instrument_number: MyString
+  remarks: MyString
+
+two:
+  receipt_number: 1
+  date: 2024-01-24
+  name: MyString
+  mobile_number: MyString
+  seva_details: MyString
+  amount: MyString
+  mode_of_payment: MyString
+  instrument_number: MyString
+  remarks: MyString
