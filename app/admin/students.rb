@@ -1,12 +1,13 @@
 ActiveAdmin.register Student do
+  config.per_page = [10, 20, 30, 50, 100]
   permit_params ["image"] << Student.column_names
 
-  scope :all
+  scope :all, default: true
   scope :upaneeta
   scope :anupaneeta
   scope :baalaki
 
-  index do
+  index download_links: [:csv, :pdf] do
     selectable_column
     id_column
     column "Student's Details" do |student|
