@@ -1,6 +1,6 @@
 ActiveAdmin.register Receipt do
   config.per_page = [10, 20, 30, 50, 100]
-  # actions :all, except: [:destroy]
+  actions :all, except: [:destroy]
   permit_params (Receipt.column_names - ["receipt_number"])
 
   scope :active, default: true
@@ -11,12 +11,14 @@ ActiveAdmin.register Receipt do
     selectable_column
     id_column
     column :receipt_number
-    column(:receipt_date) {|receipt| receipt.receipt_date.strftime("%d %b %Y")}
+    column (:receipt_date) {|receipt| receipt.receipt_date.strftime("%d %b %Y")}
     column :mobile_number
-    column(:sevakarta_name) {|receipt| receipt.sevakarta_name.titlecase}
-    column :seva_details
+    column (:sevakarta_name) {|receipt| receipt.sevakarta_name.titlecase}
+    column "Seva Voucher" do |receipt|
+      receipt&.voucher&.voucher_name
+    end
     column :seva_amount
-    column :mode_of_payment
+    column (:mode_of_payment) {|receipt| receipt.mode_of_payment.titlecase}
     column :instrument_number
     column :remarks
     column :deleted_at do |receipt|
@@ -32,7 +34,9 @@ ActiveAdmin.register Receipt do
       row(:receipt_date) {|receipt| receipt.receipt_date.strftime("%d %b %Y")}
       row :mobile_number
       row(:sevakarta_name) {|receipt| receipt.sevakarta_name.titlecase}
-      row :seva_details
+      row "Seva Voucher" do |receipt|
+        receipt&.voucher&.voucher_name
+      end
       row :seva_amount
       row :mode_of_payment
       row :instrument_number
@@ -43,16 +47,26 @@ ActiveAdmin.register Receipt do
 
   form do |f|
     f.inputs do
-      # f.input :receipt_date, start_year: Time.now.year, end_year: Time.now.year - 2
       f.input :mobile_number
       f.input :sevakarta_name
-      f.input :seva_details
-      f.input :seva_amount
+      f.input :voucher, label: "Seva Voucher", as: :select, collection: Receipt.receipt_voucher_options, input_html: { class: 'voucher-dropdown' }
+      f.input :seva_amount, hint: 'Amount will be automatically filled based on the selected voucher.'
       f.input :mode_of_payment
       f.input :instrument_number
       f.input :remarks
     end
     f.actions
+    script do
+    <<-SCRIPT.html_safe
+      $(document).ready(function(){
+        $('.voucher-dropdown').on('change', function(){
+          var selectedVoucher = $(this).find(':selected');
+          var amount = selectedVoucher.data('amount');
+          $('input#receipt_seva_amount').val(amount);
+        });
+      });
+    SCRIPT
+  end
   end
 
   controller do
@@ -66,12 +80,20 @@ ActiveAdmin.register Receipt do
   end
 
   action_item :restore, only: :show, if: proc { resource.deleted_at.present? } do
-    button_to 'Restore', restore_admin_receipt_path(resource), method: :put
+    link_to 'Restore Receipt', restore_admin_receipt_path(resource), method: :put
   end
 
   member_action :restore, method: :put do
-    # resource.recover
-    Receipt.with_deleted.find_by_id(resource.id).recover
+    resource.recover
     redirect_to admin_receipts_path, notice: 'Receipt restored successfully.'
+  end
+
+  action_item :delete, only: :show, if: proc { resource.deleted_at.nil? } do
+    link_to 'Delete Receipt', delete_admin_receipt_path(resource), method: :put
+  end
+
+  member_action :delete, method: :put do
+    resource.destroy
+    redirect_to admin_receipts_path, alert: 'Receipt deleted successfully.'
   end
 end

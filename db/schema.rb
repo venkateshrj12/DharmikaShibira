@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_05_153758) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_06_052558) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -73,14 +73,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_05_153758) do
     t.date "receipt_date"
     t.string "sevakarta_name"
     t.string "mobile_number"
-    t.string "seva_details"
-    t.float "seva_amount"
-    t.string "mode_of_payment"
+    t.integer "seva_amount"
+    t.integer "mode_of_payment"
     t.string "instrument_number"
     t.string "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.bigint "voucher_id"
+    t.index ["voucher_id"], name: "index_receipts_on_voucher_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -103,10 +104,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_05_153758) do
   create_table "vouchers", force: :cascade do |t|
     t.integer "voucher_type"
     t.string "voucher_name"
+    t.integer "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "receipts", "vouchers"
 end

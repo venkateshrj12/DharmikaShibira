@@ -1,15 +1,18 @@
 class Receipt < ApplicationRecord
   include PhoneNumberValidator
+  self.table_name = :receipts
   acts_as_paranoid
 
-  self.table_name = :receipts
+  belongs_to :voucher, class_name: "Voucher", foreign_key: "voucher_id"
 
   scope :deleted, -> { where.not(deleted_at: nil)}
   scope :active, -> { where(deleted_at: nil) }
 
+  enum mode_of_payment: {cash: 0, bank: 1}
+
   before_save :generate_receipt_number
 
-  validates_presence_of :sevakarta_name, :mobile_number, :seva_details, :seva_amount, :mode_of_payment
+  validates_presence_of :sevakarta_name, :mobile_number, :seva_amount, :mode_of_payment
   validate :valid_mobile_number
 
   private
@@ -26,5 +29,9 @@ class Receipt < ApplicationRecord
 
   def valid_mobile_number
     valid_phone_number(:mobile_number)
+  end
+
+  def self.receipt_voucher_options
+    Voucher.receipts.map { |voucher| ["#{voucher.voucher_name} - (₹#{voucher.amount})", voucher.id, data: { amount: voucher.amount }] }
   end
 end
