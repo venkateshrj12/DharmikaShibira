@@ -3,6 +3,7 @@ class CreateVouchers < ActiveRecord::Migration[7.0]
     create_table :vouchers do |t|
       t.integer :voucher_type
       t.string :voucher_name
+      t.integer :amount
 
       t.timestamps
     end
