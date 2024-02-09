@@ -1,7 +1,7 @@
 ActiveAdmin.register Receipt do
   config.per_page = [10, 20, 30, 50, 100]
   actions :all, except: [:destroy]
-  permit_params (Receipt.column_names - ["receipt_number"])
+  permit_params :sevakarta_name, :mobile_number, :seva_amount, :mode_of_payment, :instrument_number, :remarks, :created_at, :updated_at, :deleted_at, :voucher_id
 
   scope :active, default: true
   scope :deleted
@@ -57,16 +57,16 @@ ActiveAdmin.register Receipt do
     end
     f.actions
     script do
-    <<-SCRIPT.html_safe
-      $(document).ready(function(){
-        $('.voucher-dropdown').on('change', function(){
-          var selectedVoucher = $(this).find(':selected');
-          var amount = selectedVoucher.data('amount');
-          $('input#receipt_seva_amount').val(amount);
+      <<-SCRIPT.html_safe
+        $(document).ready(function(){
+          $('.voucher-dropdown').on('change', function(){
+            var selectedVoucher = $(this).find(':selected');
+            var amount = selectedVoucher.data('amount');
+            $('input#receipt_seva_amount').val(amount);
+          });
         });
-      });
-    SCRIPT
-  end
+      SCRIPT
+    end
   end
 
   controller do
