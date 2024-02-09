@@ -3,4 +3,6 @@ class AdminUser < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, 
          :recoverable, :rememberable, :validatable
+
+  enum role: { Admin: 'Admin', Registration: 'Registration', Finance: 'Finance' }
 end
