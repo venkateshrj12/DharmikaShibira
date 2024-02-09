@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  payment_number: MyString
+  payment_date: 2024-02-09
+  receiver_name: MyString
+  mobile_number: MyString
+  amount: 1
+  mode_of_payment: 1
+  instrument_number: MyString
+  remarks: MyString
+  deleted_at: 2024-02-09 18:24:42
+  voucher: one
+
+two:
+  payment_number: MyString
+  payment_date: 2024-02-09
+  receiver_name: MyString
+  mobile_number: MyString
+  amount: 1
+  mode_of_payment: 1
+  instrument_number: MyString
+  remarks: MyString
+  deleted_at: 2024-02-09 18:24:42
+  voucher: two
