@@ -1,6 +1,28 @@
 <div> <%= link_to "Export CSV", admin_export_cashbook_file_path, class: "button", style: "margin-bottom: 20px" %> </div>
 
 
+
+
+ <style>
+  .overall-balances {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .overall-balances p {
+    margin: 5px 0;
+  }
+</style>
+
+<div class="overall-balances">
+  <p><strong>Overall Balances</strong></p>
+  <p>Cash Total: <%= cash_total %></p>
+  <p>Bank Total: <%= bank_total %></p>
+  <p>Overall Total: <%= final_total %></p>
+</div>
+
+<br>
+
 <div class="table-responsive">
 
   <table class="table table-bordered">
@@ -8,7 +30,7 @@
       <tr>
         <th>Sl. No</th>
         <th> Type </th>
-        <th>Name</th>
+        <th>Voucher Name</th>
         <th>Date</th>
         <th style="width: 125px;">Receipts - Cash</th>
         <th style="width: 125px;">Receipts - Bank</th>
@@ -43,46 +65,6 @@
 
 
 
-<style>
-  .pagination li {
-    display: inline-block;
-    margin-right: 5px;
-  }
-</style>
-
-<nav aria-label="Page navigation" class="pagination">
-  <ul>
-    
-    <% (1..total_pages).each do |pg| %>
-      <li class="pagination-number <%= 'active' if pg == page %>">
-        <%= link_to pg, admin_cashbook_path(page: pg), class: 'page-link' %>
-      </li>
-    <% end %>
-    
-  </ul>
-  <div class="page-count">
-    <p>Total Pages: <%= total_pages %></p>
-  </div>
-</nav>
-
-
- <style>
-  .overall-balances {
-    font-size: 14px;
-    margin-top: 10px;
-  }
-
-  .overall-balances p {
-    margin: 5px 0;
-  }
-</style>
-
-<div class="overall-balances">
-  <p><strong>Overall Balances</strong></p>
-  <p>Cash Total: <%= cash_total %></p>
-  <p>Bank Total: <%= bank_total %></p>
-  <p>Overall Total: <%= final_total %></p>
-</div>
 
 
 

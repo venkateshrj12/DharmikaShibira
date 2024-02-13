@@ -6,25 +6,25 @@ ActiveAdmin.register Receipt do
   scope :active, default: true
   scope :deleted
   scope :all
-  
+
   index do
     selectable_column
     id_column
     column :receipt_number
     column (:receipt_date) {|receipt| receipt.receipt_date.strftime("%d %b %Y")}
     column :mobile_number
-    column (:sevakarta_name) {|receipt| receipt.sevakarta_name.titlecase}
+    column (:sevakarta_name) {|receipt| receipt&.sevakarta_name&.titlecase}
     column "Seva Voucher" do |receipt|
       receipt&.voucher&.voucher_name
     end
     column :seva_amount
-    column (:mode_of_payment) {|receipt| receipt.mode_of_payment.titlecase}
+    column (:mode_of_payment) {|receipt| receipt&.mode_of_payment&.titlecase}
     column :instrument_number
     column :remarks
     column :deleted_at do |receipt|
       span receipt.deleted_at.present? ? receipt.deleted_at.strftime("%Y-%m-%d %H:%M:%S") : '--', style: "color: #{receipt.deleted_at.present? ? 'red' : 'black'}; font-weight: bold;"
     end
-    actions 
+    actions
   end
 
   show do
@@ -33,7 +33,7 @@ ActiveAdmin.register Receipt do
       row :receipt_number
       row(:receipt_date) {|receipt| receipt.receipt_date.strftime("%d %b %Y")}
       row :mobile_number
-      row(:sevakarta_name) {|receipt| receipt.sevakarta_name.titlecase}
+      row(:sevakarta_name) {|receipt| receipt&.sevakarta_name&.titlecase}
       row "Seva Voucher" do |receipt|
         receipt&.voucher&.voucher_name
       end
