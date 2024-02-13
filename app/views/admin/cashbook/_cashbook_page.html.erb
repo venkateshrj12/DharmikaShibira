@@ -1,0 +1,91 @@
+<div> <%= link_to "Export CSV", admin_export_cashbook_file_path, class: "button", style: "margin-bottom: 20px" %> </div>
+
+
+<div class="table-responsive">
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Sl. No</th>
+        <th> Type </th>
+        <th>Name</th>
+        <th>Date</th>
+        <th style="width: 125px;">Receipts - Cash</th>
+        <th style="width: 125px;">Receipts - Bank</th>
+        <th style="width: 125px;">Payments - Cash</th>
+        <th style="width: 125px;">Payments - Bank</th>
+        <th>Total Cash</th>
+        <th>Total Bank</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% running_total_bank = 0 %>
+      <% running_total_cash = 0 %>
+      <% serial_counter = 0 %>
+      <% transactions.each_with_index do |transaction, index| %>
+        <tr>
+          <td><%= serial_counter += 1 %></td>
+          <td><%=  transaction.is_a?(Receipt) ? 'Receipt' : "Payment" %></td>
+          <td><%= link_to transaction.voucher.voucher_name, transaction.is_a?(Receipt) ? admin_receipt_path(transaction) : admin_payment_path(transaction) %></td>
+          <td><%=  transaction.created_at.to_date %></td>
+          <td><%= transaction.mode_of_payment == "cash" && transaction.is_a?(Receipt) ? transaction.seva_amount : "" %></td>
+          <td><%= transaction.mode_of_payment == "bank" && transaction.is_a?(Receipt) ? transaction.seva_amount : "" %></td>
+          <td><%= transaction.mode_of_payment == "cash" && transaction.is_a?(Payment) ? -transaction.amount : "" %></td>
+          <td><%= transaction.mode_of_payment == "bank" && transaction.is_a?(Payment) ? -transaction.amount : "" %></td>
+          <td><%= running_total_cash += transaction.mode_of_payment == "cash" ? (transaction.is_a?(Receipt) ? transaction.seva_amount : -transaction.amount) : 0 %></td>
+          <td><%= running_total_bank += transaction.mode_of_payment == "bank" ? (transaction.is_a?(Receipt) ? transaction.seva_amount : -transaction.amount) : 0 %></td>
+          <td><%= running_total_bank + running_total_cash %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+
+
+<style>
+  .pagination li {
+    display: inline-block;
+    margin-right: 5px;
+  }
+</style>
+
+<nav aria-label="Page navigation" class="pagination">
+  <ul>
+    
+    <% (1..total_pages).each do |pg| %>
+      <li class="pagination-number <%= 'active' if pg == page %>">
+        <%= link_to pg, admin_cashbook_path(page: pg), class: 'page-link' %>
+      </li>
+    <% end %>
+    
+  </ul>
+  <div class="page-count">
+    <p>Total Pages: <%= total_pages %></p>
+  </div>
+</nav>
+
+
+ <style>
+  .overall-balances {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .overall-balances p {
+    margin: 5px 0;
+  }
+</style>
+
+<div class="overall-balances">
+  <p><strong>Overall Balances</strong></p>
+  <p>Cash Total: <%= cash_total %></p>
+  <p>Bank Total: <%= bank_total %></p>
+  <p>Overall Total: <%= final_total %></p>
+</div>
+
+
+
+
+
+</div>
