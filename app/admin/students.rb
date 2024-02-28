@@ -1,6 +1,6 @@
 ActiveAdmin.register Student do
   config.per_page = [10, 20, 30, 50, 100]
-  permit_params ["image"] << Student.column_names
+  # permit_params ["image"] << Student.column_names
 
   scope :all, default: true
   scope :upaneeta
@@ -26,10 +26,10 @@ ActiveAdmin.register Student do
       link_to("Notes", toggle_notes_admin_student_path(student), method: :put, class: "status_tag color: #{student.notes ? 'green' : 'red'}") + '<br> <br>'.html_safe +
       link_to("Glass", toggle_glass_admin_student_path(student), method: :put, class: "status_tag color: #{student.glass ? 'green' : 'red'}")
     end
-    
+
     actions
   end
-  
+
   show do
     attributes_table do
       row :id
