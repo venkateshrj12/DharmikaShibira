@@ -7,9 +7,10 @@ class Ability
         can :manage, [Student]
         can :read, ActiveAdmin::Page, name: "Dashboard", namespace_name: "admin"
       elsif user.Finance?
-        can :manage, [Voucher, Receipt]
-        can :read, [Student]
+        can :manage, [Voucher, Receipt, Payment]
+        # can :read, [Student]
         can :read, ActiveAdmin::Page, name: "Dashboard", namespace_name: "admin"
+        can :read, ActiveAdmin::Page, name: "Cashbook", namespace_name: "admin"
       else
         can :manage, :all #admin role can access all files
       end

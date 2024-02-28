@@ -7,16 +7,21 @@ ActiveAdmin.register Student do
   scope :anupaneeta
   scope :baalaki
 
+  filter :name
+  filter :parent_name
+  filter :parent_contact_number
+
+
   index download_links: [:csv, :pdf] do
     selectable_column
     id_column
-    column "Student's Details" do |student|
+    column "Student's Details", sortable: 'name' do |student|
       simple_format("#{student.name}<br>#{student&.student_type&.titlecase}<br><br>#{student.age_calculator}<br>#{student.student_contact_number}")
     end
     column "Parent's details" do |student|
       simple_format("#{student.parent_name}<br>#{student.gotra}<br><br>#{student.address}<br>#{student.parent_contact_number}")
     end
-    column :remarks
+    column :remarks, sortable: false
     column "Accessaries" do |student|
       link_to("Notes", toggle_notes_admin_student_path(student), method: :put, class: "status_tag color: #{student.notes ? 'green' : 'red'}") + '<br> <br>'.html_safe +
       link_to("Glass", toggle_glass_admin_student_path(student), method: :put, class: "status_tag color: #{student.glass ? 'green' : 'red'}")
@@ -67,12 +72,12 @@ ActiveAdmin.register Student do
   member_action :toggle_notes, method: :put do
     student = Student.find(params[:id])
     student.update(notes: !student.notes)
-    redirect_to admin_students_path#, notice: "Notes status toggled successfully."
+    redirect_back(fallback_location: admin_students_path)
   end
 
     member_action :toggle_glass, method: :put do
     student = Student.find(params[:id])
     student.update(glass: !student.glass)  # Corrected from 'notes' to 'glass'
-    redirect_to admin_students_path
+    redirect_back(fallback_location: admin_students_path)
   end
 end

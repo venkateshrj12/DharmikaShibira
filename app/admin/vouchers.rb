@@ -1,7 +1,7 @@
 ActiveAdmin.register Voucher do
   permit_params :voucher_type, :voucher_name, :amount
   config.filters = false
-  actions :all, except: :show
+  # actions :all, except: :show
 
   scope :all, default: true
   scope :receipts

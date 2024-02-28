@@ -31,6 +31,12 @@ $primary-color: #390879;
   vertical-align: middle;
 }
 
+td, th {
+  border: 1px solid #ddd;
+}
+
+
+
 #student_date_of_birth_input {
   @media screen and (max-width: 600px) {
     .label {
