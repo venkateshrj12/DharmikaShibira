@@ -18,7 +18,7 @@ Rails.application.configure do
   config.server_timing = true
 
   # To host the app through ngrok, replace the below tag for new session and restart the server
-  config.hosts << /d540-2405-201-d009-bb62-9d0-88cd-eb81-4c21.ngrok-free.app/
+  # config.hosts << "72f9-2401-4900-33dc-d80e-8df9-93a9-6958-cb97.ngrok-free.app"
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
