@@ -1,4 +1,3 @@
-AdminUser.destroy_all
-# unless AdminUser.find_by(email: "admin@example.com").present?
+unless AdminUser.find_by(email: "admin@example.com").present?
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password', role: 'Admin') if Rails.env.development?
-# end
+end
